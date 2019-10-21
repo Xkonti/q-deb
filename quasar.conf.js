@@ -29,8 +29,9 @@ module.exports = function (ctx) {
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'roboto-font-latin-ext',
+      'material-icons',
+      'mdi-v4'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
@@ -48,27 +49,47 @@ module.exports = function (ctx) {
       all: false,
 
       components: [
-        'QLayout',
-        'QHeader',
+        'QAvatar',
+        'QBanner',
+        'QBtn',
+        'QCard',
+        'QCardActions',
+        'QCardSection',
+        'QCheckbox',
+        'QChip',
+        'QDialog',
         'QDrawer',
-        'QPageContainer',
+        'QField',
+        'QFooter',
+        'QForm',
+        'QHeader',
+        'QIcon',
+        'QImg',
+        'QInput',
+        'QItem',
+        'QItemLabel',
+        'QItemSection',
+        'QLayout',
+        'QList',
+        'QMenu',
         'QPage',
+        'QPageContainer',
+        'QResizeObserver',
+        'QSeparator',
+        'QSpace',
+        'QTable',
         'QToolbar',
         'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel'
+        'QVirtualScroll'
       ],
 
       directives: [
+        'ClosePopup',
         'Ripple'
       ],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Loading', 'Notify']
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie

@@ -1,0 +1,14 @@
+{
+  "@quasar/testing-unit-jest": {
+    "babel": "babelrc",
+    "options": [
+      "scripts"
+    ]
+  },
+  "@quasar/typescript": {
+    "webpack": "plugin",
+    "rename": true,
+    "vscode": true,
+    "prettier": true
+  }
+}

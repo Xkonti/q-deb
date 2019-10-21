@@ -60,17 +60,17 @@ module.exports = {
     quotes: ['warn', 'single'],
     '@typescript-eslint/indent': ['warn', 2],
 
-    // Allow console.log during development only
+    // allow console.log during development only
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    // Allow debugger during development only
+    // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
     // Custom
     'vue/component-name-in-template-casing': ['error', 'kebab-case'],
 
-    // Typescript
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/no-use-before-define': 'off'
+    // Correct typescript linting until at least 2.0.0 major release
+    // See https://github.com/typescript-eslint/typescript-eslint/issues/501
+    // See https://github.com/typescript-eslint/typescript-eslint/issues/493
+    '@typescript-eslint/explicit-function-return-type': 'off'
   }
-};
+}

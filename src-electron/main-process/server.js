@@ -1,9 +1,9 @@
 import * as fastifyModule from 'fastify';
 import { dialog } from 'electron';
 
-const fastify = fastifyModule({ logger: true});
+const fastify = fastifyModule({ logger: true });
 
-export const start = async (requestCallback) => {
+export const start = async requestCallback => {
   let e = 'Preparing for server start.';
   try {
     fastify.route({
@@ -31,7 +31,6 @@ export const start = async (requestCallback) => {
     e = 'Server created.';
     fastify.log.info(`server listening on ${fastify.server.address().port}`);
   } catch (err) {
-    //fastify.log.error(err);
     throw new Error(`${e}: ${err}`);
   }
 };

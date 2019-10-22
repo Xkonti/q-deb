@@ -26,27 +26,28 @@ function createWindow() {
    */
   let e = 'Creating server';
 
-  start(addMessage).then(() => {
-    mainWindow = new BrowserWindow({
-      width: 1000,
-      height: 600,
-      useContentSize: true,
-      webPreferences: {
-        nodeIntegration: true
-      }
-    });
+  start(addMessage)
+    .then(() => {
+      mainWindow = new BrowserWindow({
+        width: 1000,
+        height: 600,
+        useContentSize: true,
+        webPreferences: {
+          nodeIntegration: true
+        }
+      });
 
-    mainWindow.loadURL(process.env.APP_URL);
-    mainWindow.on('closed', () => {
-      mainWindow = null;
+      mainWindow.loadURL(process.env.APP_URL);
+      mainWindow.on('closed', () => {
+        mainWindow = null;
+      });
+    })
+    .catch(reason => {
+      dialog.showMessageBox({
+        title: 'Electron error',
+        message: reason
+      });
     });
-  }).catch(reason => {
-    dialog.showMessageBox({
-      title: 'Electron error',
-      message: reason
-    });
-  });
-
 }
 
 function addMessage(request) {

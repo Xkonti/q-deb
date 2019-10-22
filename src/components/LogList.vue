@@ -8,7 +8,7 @@
     hide-bottom
     row-key="id"
     selection="multiple"
-    :pagination="{page: 1, rowsPerPage: 0}"
+    :pagination="{ page: 1, rowsPerPage: 0 }"
   />
 </template>
 
@@ -18,7 +18,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 // Store modules
-import { getModule} from 'vuex-module-decorators';
+import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
 
 // Others
@@ -35,28 +35,28 @@ export default class LogList extends Vue {
       label: 'Timestamp',
       align: 'left',
       field: 'timestamp',
-      format: (val: Date) => this.getFormattedDate(val),
+      format: (val: Date) => this.getFormattedDate(val)
     },
     {
       name: 'severity',
       required: true,
       label: 'Severity',
       align: 'left',
-      field: 'severity',
+      field: 'severity'
     },
     {
       name: 'source',
       required: false,
       label: 'Source',
       align: 'left',
-      field: 'source',
+      field: 'source'
     },
     {
       name: 'message',
       required: false,
       label: 'Message',
       align: 'left',
-      field: 'message',
+      field: 'message'
     },
     {
       name: 'tags',
@@ -64,7 +64,7 @@ export default class LogList extends Vue {
       label: 'Tags',
       align: 'left',
       field: 'tags',
-      format: (val: string[]) => JSON.stringify(val),
+      format: (val: string[]) => JSON.stringify(val)
     }
   ];
 
@@ -85,11 +85,21 @@ export default class LogList extends Vue {
   }
 
   getSelectedString() {
-    return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.logStore.filteredLog.length}`
+    return this.selected.length === 0
+      ? ''
+      : `${this.selected.length} record${
+          this.selected.length > 1 ? 's' : ''
+        } selected of ${this.logStore.filteredLog.length}`;
   }
 
   getFormattedDate(date: Date): string {
-    return `${date.getFullYear()}-${this.normalize(date.getMonth())}-${this.normalize(date.getDay())} ${this.normalize(date.getHours())}:${this.normalize(date.getMinutes())}:${this.normalize(date.getSeconds())} (${date.getMilliseconds()})`;
+    return `${date.getFullYear()}-${this.normalize(
+      date.getMonth()
+    )}-${this.normalize(date.getDay())} ${this.normalize(
+      date.getHours()
+    )}:${this.normalize(date.getMinutes())}:${this.normalize(
+      date.getSeconds()
+    )} (${date.getMilliseconds()})`;
   }
 
   normalize(value: number): string {

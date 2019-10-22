@@ -10,6 +10,7 @@ const i18n = new VueI18n({
   messages
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 export default ({ app }) => {
   // Set i18n instance on app

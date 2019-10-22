@@ -7,10 +7,10 @@
 <script lang="ts">
 // Vue
 import Vue from 'vue';
-import { Component,  } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 // Store modules
-import { getModule} from 'vuex-module-decorators';
+import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from './modules/log/LogStoreModule';
 
 // Electron

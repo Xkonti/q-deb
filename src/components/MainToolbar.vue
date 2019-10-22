@@ -68,7 +68,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 // Store modules
-import { getModule} from 'vuex-module-decorators';
+import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
 import { ILogEntry } from '../modules/common/ILogEntry';
 
@@ -77,7 +77,7 @@ import { Clipboard } from '../modules/common/Clipboard';
 import { LogFilter } from '../modules/log/LogFilter';
 
 @Component({
-  components: { }
+  components: {}
 })
 export default class MainToolbar extends Vue {
   logStore: LogStoreModule = getModule(LogStoreModule);

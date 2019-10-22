@@ -2,11 +2,11 @@ import { ILogEntry } from '../common/ILogEntry';
 
 export class LogFilter {
   public isActive: boolean = false;
-  public messageFilter: string|null = null;
-  public sourceFilter: string|null = null;
-  public tagFilter: string|null = null;
-  public timestampFilterEnd: Date|null = null;
-  public timestampFilterStart: Date|null = null;
+  public messageFilter: string | null = null;
+  public sourceFilter: string | null = null;
+  public tagFilter: string | null = null;
+  public timestampFilterEnd: Date | null = null;
+  public timestampFilterStart: Date | null = null;
 
   public matchEntry(entry: ILogEntry): boolean {
     if (!this.isActive) return true;

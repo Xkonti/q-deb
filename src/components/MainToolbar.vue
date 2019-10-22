@@ -100,12 +100,12 @@ export default class MainToolbar extends Vue {
     return this.selectedLogEntries.length;
   }
 
-  onSerializeSelectedClicked() {
-    Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
-  }
-
   onCopyMessageClicked() {
     Clipboard.Copy(this.selectedLogEntries[0].message);
+  }
+
+  onSerializeSelectedClicked() {
+    Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
   }
 
   onTagFilterTextChange(value: string) {

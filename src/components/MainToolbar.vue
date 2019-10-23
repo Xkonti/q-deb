@@ -6,7 +6,7 @@
 
     <q-input
       v-model="messageFilter"
-      @input="onMessageFilterTextChange"
+      @input="updateFilter"
       class="q-ma-xs"
       dark
       dense
@@ -16,7 +16,7 @@
 
     <q-input
       v-model="tagFilter"
-      @input="onTagFilterTextChange"
+      @input="updateFilter"
       class="q-ma-xs"
       dark
       dense
@@ -110,32 +110,8 @@ export default class MainToolbar extends Vue {
     Clipboard.Copy(this.selectedLogEntries[0].message);
   }
 
-  onMessageFilterTextChange(value: string) {
-    const filter = new LogFilter();
-    if (value == null || value === '') {
-      this.logStore.setFilter(filter);
-      return;
-    }
-
-    filter.isActive = true;
-    filter.tagFilter = value;
-    this.logStore.setFilter(filter);
-  }
-
   onSerializeSelectedClicked() {
     Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
-  }
-
-  onTagFilterTextChange(value: string) {
-    const filter = new LogFilter();
-    if (value == null || value === '') {
-      this.logStore.setFilter(filter);
-      return;
-    }
-
-    filter.isActive = true;
-    filter.tagFilter = value;
-    this.logStore.setFilter(filter);
   }
 
   toggleAutoscroll() {

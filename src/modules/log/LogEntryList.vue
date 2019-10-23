@@ -4,7 +4,6 @@
     :virtual-scroll-item-size="23"
     :virtual-scroll-slice-size="80"
     :items="log"
-    @virtual-scroll="onVirtualScroll"
     ref="logList"
     dense
     separator="cell"
@@ -165,11 +164,6 @@ export default class LogEntryList extends Vue {
     let text = `${value}`;
     if (text.length < 2) return `0${text}`;
     return text;
-  }
-
-  onVirtualScroll({ index }: { index: number }) {
-    this.bottomRowIndex = index;
-    this.logStore.setAutoscroll(index + 1 === this.log.length);
   }
 
   @Watch('log')

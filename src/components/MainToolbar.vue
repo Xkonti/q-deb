@@ -74,10 +74,6 @@ export default class MainToolbar extends Vue {
 
   tagFilter: string = '';
 
-  onClearLogClicked() {
-    this.logStore.clearLogs();
-  }
-
   get autoscroll(): boolean {
     return this.logStore.autoscroll;
   }
@@ -88,6 +84,10 @@ export default class MainToolbar extends Vue {
 
   get selectedLogEntriesCount(): number {
     return this.selectedLogEntries.length;
+  }
+
+  onClearLogClicked() {
+    this.logStore.clearLogs();
   }
 
   onCopyMessageClicked() {

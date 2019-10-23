@@ -9,17 +9,12 @@ export class LogFilter {
   public timestampFilterStart: Date | null = null;
 
   public matchEntry(entry: ILogEntry): boolean {
-    if (entry == null) {
-      console.log('Can\'t match null log entry');
-      return false;
-    }
     if (!this.isActive) return true;
+    if (entry == null) return false;
 
-    if (this.messageFilter != null && this.messageFilter !== '') {
-      if (entry.message == null) {
-        console.log('Can\'t match null message');
+    if (this.messageFilter != null) {
+      if (entry.message == null || !entry.message.includes(this.messageFilter))
         return false;
-      } else if (!entry.message.includes(this.messageFilter)) return false;
     }
 
     if (this.sourceFilter != null) {
@@ -27,11 +22,9 @@ export class LogFilter {
       return false;
     }
 
-    if (this.tagFilter != null && this.tagFilter !== '') {
-      if (entry.tags == null) {
-        console.log('Can\'t match null tags');
+    if (this.tagFilter != null) {
+      if (entry.tags == null || !entry.tags.includes(this.tagFilter))
         return false;
-      } else if (!entry.tags.includes(this.tagFilter)) return false;
     }
 
     if (this.timestampFilterEnd != null) {

@@ -2,6 +2,7 @@ import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import Store from '../../store/index';
 import { ILogEntry } from '../common/ILogEntry';
 import { LogFilter } from './LogFilter';
+import { EServerStatus } from '../common/EServerStatus';
 
 @Module({
   dynamic: true,
@@ -15,10 +16,16 @@ export default class LogStoreModule extends VuexModule {
   public filteredLog: ILogEntry[] = [];
   public fullLog: ILogEntry[] = [];
   public selected: ILogEntry[] = [];
+  public serverStatus: EServerStatus = EServerStatus.Off;
 
   @Mutation
   public SET_AUTOSCROLL(value: boolean) {
     this.autoscroll = value;
+  }
+
+  @Mutation
+  public SET_SERVER_STATUS(value: EServerStatus) {
+    this.serverStatus = value;
   }
 
   @Mutation
@@ -85,5 +92,10 @@ export default class LogStoreModule extends VuexModule {
     } else {
       this.SET_FILTERED_LOG(this.fullLog);
     }
+  }
+
+  @Action
+  public setServerStatus(value: EServerStatus) {
+    this.SET_SERVER_STATUS(value);
   }
 }

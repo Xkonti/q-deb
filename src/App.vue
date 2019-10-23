@@ -1,3 +1,4 @@
+import { EServerStatus } from './modules/common/EServerStatus';
 <template>
   <div id="q-app">
     <router-view />
@@ -8,16 +9,14 @@
 // Vue
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-
 // Store modules
 import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from './modules/log/LogStoreModule';
-
 // Electron
 import { ipcRenderer } from 'electron';
-
 // Other
 import { ILogEntryDto } from './modules/common/ILogEntryDto';
+import { EServerStatus } from './modules/common/EServerStatus';
 
 @Component
 export default class App extends Vue {
@@ -25,6 +24,8 @@ export default class App extends Vue {
 
   mounted() {
     ipcRenderer.on('new-messages', this.onNewMessages);
+    ipcRenderer.on('start-server-status', this.onStartServerStatus);
+    ipcRenderer.on('stop-server-status', this.onStopServerStatus);
 
     // Refresh messages on an interval
     setInterval(() => ipcRenderer.send('get-new-messages', null), 100);
@@ -42,6 +43,22 @@ export default class App extends Vue {
         timestamp: new Date(message.timestamp)
       });
     });
+  }
+
+  onStartServerStatus(event: object, arg: boolean) {
+    if (arg) {
+      this.logStore.setServerStatus(EServerStatus.On);
+    } else {
+      this.logStore.setServerStatus(EServerStatus.Off);
+    }
+  }
+
+  onStopServerStatus(event: object, arg: boolean) {
+    if (arg) {
+      this.logStore.setServerStatus(EServerStatus.Off);
+    } else {
+      this.logStore.setServerStatus(EServerStatus.On);
+    }
   }
 }
 </script>

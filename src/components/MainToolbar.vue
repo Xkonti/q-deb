@@ -1,8 +1,17 @@
+import { EServerStatus } from '../modules/common/EServerStatus'; import {
+EServerStatus } from '../modules/common/EServerStatus';
 <template>
   <q-toolbar>
     <q-toolbar-title>
       QDeb
     </q-toolbar-title>
+
+    <q-btn
+      dense
+      :label="`Server status: ${serverStatus}`"
+      :disable="isServerButtonDisabled"
+      @click="toggleServer"
+    />
 
     <q-input
       v-model="messageFilter"
@@ -55,7 +64,11 @@
     />
     <q-btn
       dense
-      :icon="`mdi-${autoscroll ? 'format-vertical-align-bottom' : 'arrow-expand-vertical'}`"
+      :icon="
+        `mdi-${
+          autoscroll ? 'format-vertical-align-bottom' : 'arrow-expand-vertical'
+        }`
+      "
       @click="toggleAutoscroll"
       round
     />
@@ -66,15 +79,15 @@
 // Vue
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-
 // Store modules
 import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
 import { ILogEntry } from '../modules/common/ILogEntry';
-
 // Others
 import { Clipboard } from '../modules/common/Clipboard';
 import { LogFilter } from '../modules/log/LogFilter';
+import { EServerStatus } from '../modules/common/EServerStatus';
+import { ipcRenderer } from 'electron';
 
 @Component({
   components: {}
@@ -89,12 +102,20 @@ export default class MainToolbar extends Vue {
     return this.logStore.autoscroll;
   }
 
+  get serverStatus(): EServerStatus {
+    return this.logStore.serverStatus;
+  }
+
   get selectedLogEntries(): ILogEntry[] {
     return this.logStore.selected;
   }
 
   get selectedLogEntriesCount(): number {
     return this.selectedLogEntries.length;
+  }
+
+  get isServerButtonDisabled(): boolean {
+    return this.serverStatus !== EServerStatus.On && this.serverStatus !== EServerStatus.Off
   }
 
   getNullOrValue(value: string): string | null {
@@ -116,6 +137,16 @@ export default class MainToolbar extends Vue {
 
   toggleAutoscroll() {
     this.logStore.setAutoscroll(!this.autoscroll);
+  }
+
+  toggleServer() {
+    if (this.serverStatus === EServerStatus.On) {
+      ipcRenderer.send('stop-server', null);
+      this.logStore.setServerStatus(EServerStatus.Stopping);
+    } else if (this.serverStatus === EServerStatus.Off) {
+      ipcRenderer.send('start-server', null);
+      this.logStore.setServerStatus(EServerStatus.Starting);
+    }
   }
 
   updateFilter() {

@@ -5,8 +5,18 @@
     </q-toolbar-title>
 
     <q-input
+      v-model="messageFilter"
+      @input="updateFilter"
+      class="q-ma-xs"
+      dark
+      dense
+      filled
+      label="Message filter"
+    />
+
+    <q-input
       v-model="tagFilter"
-      @input="onTagFilterTextChange"
+      @input="updateFilter"
       class="q-ma-xs"
       dark
       dense
@@ -72,11 +82,8 @@ import { LogFilter } from '../modules/log/LogFilter';
 export default class MainToolbar extends Vue {
   logStore: LogStoreModule = getModule(LogStoreModule);
 
+  messageFilter: string = '';
   tagFilter: string = '';
-
-  onClearLogClicked() {
-    this.logStore.clearLogs();
-  }
 
   get autoscroll(): boolean {
     return this.logStore.autoscroll;
@@ -90,6 +97,15 @@ export default class MainToolbar extends Vue {
     return this.selectedLogEntries.length;
   }
 
+  getNullOrValue(value: string): string | null {
+    if (value == null || value === '') return null;
+    return value;
+  }
+
+  onClearLogClicked() {
+    this.logStore.clearLogs();
+  }
+
   onCopyMessageClicked() {
     Clipboard.Copy(this.selectedLogEntries[0].message);
   }
@@ -98,20 +114,16 @@ export default class MainToolbar extends Vue {
     Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
   }
 
-  onTagFilterTextChange(value: string) {
-    const filter = new LogFilter();
-    if (value == null || value === '') {
-      this.logStore.setFilter(filter);
-      return;
-    }
-
-    filter.isActive = true;
-    filter.tagFilter = value;
-    this.logStore.setFilter(filter);
-  }
-
   toggleAutoscroll() {
     this.logStore.setAutoscroll(!this.autoscroll);
+  }
+
+  updateFilter() {
+    const filter = new LogFilter();
+    filter.tagFilter = this.getNullOrValue(this.tagFilter);
+    filter.messageFilter = this.getNullOrValue(this.messageFilter);
+    filter.isActive = filter.tagFilter != null || filter.messageFilter != null;
+    this.logStore.setFilter(filter);
   }
 }
 </script>

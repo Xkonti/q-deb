@@ -44,19 +44,9 @@
       size="small"
     />
     <q-btn
-      v-if="autoscroll"
-      color="info"
       dense
-      disable
-      icon="mdi-format-vertical-align-bottom"
-      round
-    />
-    <q-btn
-      v-if="!autoscroll"
-      color="info"
-      dense
-      disable
-      icon="mdi-arrow-expand-vertical"
+      :icon="`mdi-${autoscroll ? 'format-vertical-align-bottom' : 'arrow-expand-vertical'}`"
+      @click="toggleAutoscroll"
       round
     />
   </q-toolbar>
@@ -100,12 +90,12 @@ export default class MainToolbar extends Vue {
     return this.selectedLogEntries.length;
   }
 
-  onSerializeSelectedClicked() {
-    Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
-  }
-
   onCopyMessageClicked() {
     Clipboard.Copy(this.selectedLogEntries[0].message);
+  }
+
+  onSerializeSelectedClicked() {
+    Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
   }
 
   onTagFilterTextChange(value: string) {
@@ -118,6 +108,10 @@ export default class MainToolbar extends Vue {
     filter.isActive = true;
     filter.tagFilter = value;
     this.logStore.setFilter(filter);
+  }
+
+  toggleAutoscroll() {
+    this.logStore.setAutoscroll(!this.autoscroll);
   }
 }
 </script>

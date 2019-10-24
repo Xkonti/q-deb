@@ -1,86 +1,65 @@
-import { EServerStatus } from '../modules/common/EServerStatus'; import {
-EServerStatus } from '../modules/common/EServerStatus';
 <template>
-  <q-toolbar>
-    <q-input
-      v-model="messageFilter"
-      @input="updateFilter"
-      class="on-left"
-      dark
-      dense
-      filled
-      label="Message filter"
-    />
+  <q-bar class="q-electron-drag">
+    <div>{{ title }}</div>
 
-    <q-input
-      v-model="tagFilter"
-      @input="updateFilter"
-      class="on-left"
-      dark
-      dense
-      filled
-      label="Tag filter"
-    />
+    <q-space />
 
-    <q-space/>
+    <CleanLogButton class="on-left" />
+    <ServerToggle class="on-left" />
+    <AutoscrollToggle class="on-left" />
+    <SettingsButton class="on-left" />
 
-    <q-btn
-      @click="onClearLogClicked"
-      icon="mdi-spray-bottle"
-      class="on-right"
-      dense
-      round
-    >
-      <q-tooltip>
-        Clear log
-      </q-tooltip>
-    </q-btn>
-
-    <ListeningToggle class="on-right"/>
-    <AutoscrollToggle class="on-right"/>
-    <SettingsButton class="on-right"/>
-  </q-toolbar>
+    <q-btn dense flat icon="minimize" @click="minimize" class="on-right" />
+    <q-btn dense flat icon="crop_square" @click="maximize" />
+    <q-btn dense flat icon="close" @click="closeApp" />
+  </q-bar>
 </template>
 
 <script lang="ts">
 // Vue
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import AutoscrollToggle from './AutoscrollToggle.vue';
+import CleanLogButton from './CleanLogButton.vue';
 import ServerToggle from './ServerToggle.vue';
+import SettingsButton from './SettingsButton.vue';
 
 // Store modules
 import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
 
-// Others
-import AutoscrollToggle from './AutoscrollToggle.vue';
-import SettingsButton from './SettingsButton.vue';
-import { LogFilter } from '../modules/log/LogFilter';
-
 @Component({
-  components: { AutoscrollToggle, ListeningToggle: ServerToggle, SettingsButton }
+  components: { SettingsButton, AutoscrollToggle, ServerToggle, CleanLogButton }
 })
 export default class MainToolbar extends Vue {
-  logStore = getModule(LogStoreModule);
+  log = getModule(LogStoreModule);
 
-  messageFilter: string = '';
-  tagFilter: string = '';
-
-  getNullOrValue(value: string): string | null {
-    if (value == null || value === '') return null;
-    return value;
+  get title() {
+    return `${this.$q.electron.remote.app.getName()} ${this.$q.electron.remote.app.getVersion()}`;
   }
 
-  onClearLogClicked() {
-    this.logStore.clearLogs();
+  minimize() {
+    if (process.env.MODE === 'electron') {
+      this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize();
+    }
   }
 
-  updateFilter() {
-    const filter = new LogFilter();
-    filter.tagFilter = this.getNullOrValue(this.tagFilter);
-    filter.messageFilter = this.getNullOrValue(this.messageFilter);
-    filter.isActive = filter.tagFilter != null || filter.messageFilter != null;
-    this.logStore.setFilter(filter);
+  maximize() {
+    if (process.env.MODE === 'electron') {
+      const window = this.$q.electron.remote.BrowserWindow.getFocusedWindow();
+
+      if (window.isMaximized()) {
+        window.unmaximize();
+      } else {
+        window.maximize();
+      }
+    }
+  }
+
+  closeApp() {
+    if (process.env.MODE === 'electron') {
+      this.$q.electron.remote.BrowserWindow.getFocusedWindow().close();
+    }
   }
 }
 </script>

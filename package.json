@@ -8,6 +8,7 @@
   "author": "Xkonti <online.xkonti@gmail.com>",
   "private": true,
   "scripts": {
+    "build:electron": "quasar build -m electron",
     "dev:electron": "quasar dev -m electron",
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ./",
     "test": "echo \"No test specified\" && exit 0"

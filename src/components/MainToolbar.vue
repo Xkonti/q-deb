@@ -88,12 +88,15 @@ import { Clipboard } from '../modules/common/Clipboard';
 import { LogFilter } from '../modules/log/LogFilter';
 import { EServerStatus } from '../modules/common/EServerStatus';
 import { ipcRenderer } from 'electron';
+import ServerStoreModule from '../modules/server/ServerStoreModule';
+import { ServerSettings } from '../modules/server/ServerSettings';
 
 @Component({
-  components: {}
+  components: { SettingsButton }
 })
 export default class MainToolbar extends Vue {
-  logStore: LogStoreModule = getModule(LogStoreModule);
+  logStore = getModule(LogStoreModule);
+  serverStore = getModule(ServerStoreModule);
 
   messageFilter: string = '';
   tagFilter: string = '';
@@ -103,7 +106,7 @@ export default class MainToolbar extends Vue {
   }
 
   get serverStatus(): EServerStatus {
-    return this.logStore.serverStatus;
+    return this.serverStore.status;
   }
 
   get selectedLogEntries(): ILogEntry[] {
@@ -141,11 +144,9 @@ export default class MainToolbar extends Vue {
 
   toggleServer() {
     if (this.serverStatus === EServerStatus.On) {
-      ipcRenderer.send('stop-server', null);
-      this.logStore.setServerStatus(EServerStatus.Stopping);
+      this.serverStore.stopServer();
     } else if (this.serverStatus === EServerStatus.Off) {
-      ipcRenderer.send('start-server', null);
-      this.logStore.setServerStatus(EServerStatus.Starting);
+      this.serverStore.startServer(new ServerSettings());
     }
   }
 

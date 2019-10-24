@@ -101,15 +101,15 @@ function getServerStatus() {
   return logListener.status;
 }
 
-ipcMain.on('start-server', async (event, arg) => {
+ipcMain.on('start-server', async (event, settings) => {
   if (logListener != null && logListener.isOff)
     event.reply('start-server-status', false);
-  logListener = new LogListener(null, null, addMessage);
+  logListener = new LogListener(settings, addMessage);
   let result = await logListener.start();
   event.reply('start-server-status', result);
 });
 
-ipcMain.on('stop-server', async (event, arg) => {
+ipcMain.on('stop-server', async (event) => {
   if (logListener == null || !logListener.isOn)
     event.reply('stop-server-status', false);
   let result = await logListener.stop();
@@ -120,7 +120,7 @@ ipcMain.on('add-new-message', (event, arg) => {
   newMessages.push(arg);
 });
 
-ipcMain.on('get-new-messages', (event, arg) => {
+ipcMain.on('get-new-messages', (event) => {
   event.reply('new-messages', newMessages);
   newMessages = [];
 });

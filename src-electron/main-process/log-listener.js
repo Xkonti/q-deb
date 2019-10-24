@@ -37,13 +37,12 @@ export default class LogListener {
   _status = 'off';
 
   /**
-   * @param {string} listeningUrl
-   * @param {number} port
+   * @param {ServerSettings} settings
    * @param {function} requestCallback
    */
-  constructor(listeningUrl, port, requestCallback) {
-    this._listeningUrl = listeningUrl || this._listeningUrl;
-    this._port = port || this._port;
+  constructor(settings, requestCallback) {
+    this._listeningUrl = settings.url || this._listeningUrl;
+    this._port = settings.port || this._port;
     this._requestCallback = requestCallback;
   }
 

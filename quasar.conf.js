@@ -76,6 +76,7 @@ module.exports = function(ctx) {
         'QTable',
         'QToolbar',
         'QToolbarTitle',
+        'QTooltip',
         'QVirtualScroll'
       ],
 

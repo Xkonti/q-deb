@@ -5,7 +5,6 @@
     dense
     flat
     icon="mdi-settings"
-    round
     @click="onSettingsButtonClick"
   />
 </template>

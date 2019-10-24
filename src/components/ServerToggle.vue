@@ -3,7 +3,7 @@
     :icon="`mdi-${isServerListening ? 'earth' : 'earth-off'}`"
     :loading="isServerTransitioning"
     dense
-    round
+    flat
     @click="toggleServer"
   >
     <q-tooltip>

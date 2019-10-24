@@ -3,7 +3,7 @@
     dense
     :icon="`mdi-${isAutoscrollOn ? 'format-vertical-align-bottom' : 'arrow-expand-vertical'}`"
     @click="toggleAutoscroll"
-    round
+    flat
   >
     <q-tooltip>
       Auto-scroll is {{isAutoscrollOn ? "active" : "inactive"}}

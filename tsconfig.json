@@ -5,10 +5,12 @@
     "target": "es6",
     "strict": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "types": [
+      "quasar"
+    ]
   },
   "exclude": ["node_modules"]
 }

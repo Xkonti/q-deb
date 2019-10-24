@@ -10,13 +10,16 @@ module.exports = function(ctx) {
     },
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-    boot: ['i18n', 'axios'],
+    // https://quasar.dev/quasar-cli/cli-documentation/boot-files
+    boot: ['i18n'],
 
-    css: ['app.styl'],
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
+    css: ['app.sass'],
 
+    // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v3',
+      // 'mdi-v4',
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
@@ -27,15 +30,24 @@ module.exports = function(ctx) {
       'mdi-v4'
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      // iconSet: 'ionicons-v4',
-      // lang: 'de', // Quasar language
+      // iconSet: 'ionicons-v4', // Quasar icon set
+      // lang: 'de', // Quasar language pack
 
-      // all: true, // --- includes everything; for dev only!
+      // Possible values for "all":
+      // * 'auto' - Auto-import needed Quasar components & directives
+      //            (slightly higher compile time; next to minimum bundle size; most convenient)
+      // * false  - Manually specify what to import
+      //            (fastest compile time; minimum bundle size; most tedious)
+      // * true   - Import everything from Quasar
+      //            (not treeshaking Quasar; biggest bundle size; convenient)
+      all: false,
 
       components: [
         'QAvatar',
         'QBanner',
+        'QBar',
         'QBtn',
         'QCard',
         'QCardActions',
@@ -65,30 +77,30 @@ module.exports = function(ctx) {
         'QTable',
         'QToolbar',
         'QToolbarTitle',
+        'QTooltip',
         'QVirtualScroll'
       ],
-
-      config: {
-        loading: {
-          /* loading defaults */
-        }
-      },
 
       directives: ['ClosePopup', 'Ripple'],
 
       // Quasar plugins
-      plugins: ['AddressbarColor', 'Loading', 'Notify']
+      plugins: ['Loading', 'Notify']
     },
 
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       scopeHoisting: true,
       // vueRouterMode: 'history',
-      // vueCompiler: true,
+      // showProgress: false,
       // gzip: true,
       // analyze: true,
+      // preloadChunks: false,
       // extractCSS: false,
+
+      // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack(cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
@@ -102,6 +114,7 @@ module.exports = function(ctx) {
       }
     },
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       // https: true,
       // port: 8080,
@@ -109,19 +122,22 @@ module.exports = function(ctx) {
     },
 
     // animations: 'all', // --- includes all animations
+    // https://quasar.dev/options/animations
     animations: [],
 
+    // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       pwa: false
     },
 
+    // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'Hourslog',
-        // short_name: 'Hourslog',
-        // description: 'A Quasar Framework app',
+        // name: 'QDeb',
+        // short_name: 'QDeb',
+        // description: 'A simple logging application.',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -156,11 +172,13 @@ module.exports = function(ctx) {
       }
     },
 
+    // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // id: 'org.cordova.quasar.app',
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
+    // https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
       // bundler: 'builder', // or 'packager'
 
@@ -182,7 +200,7 @@ module.exports = function(ctx) {
 
       builder: {
         // https://www.electron.build/configuration/configuration
-        // appId: 'hourslog-client'
+        // appId: 'q-deb'
       }
     }
   };

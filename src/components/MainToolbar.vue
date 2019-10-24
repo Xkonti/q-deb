@@ -1,123 +1,65 @@
 <template>
-  <q-toolbar>
-    <q-toolbar-title>
-      QDeb
-    </q-toolbar-title>
+  <q-bar class="q-electron-drag">
+    <div>{{ title }}</div>
 
-    <q-input
-      v-model="tagFilter"
-      @input="onTagFilterTextChange"
-      class="q-ma-xs"
-      dark
-      dense
-      filled
-      label="Tag filter"
-    />
+    <q-space />
 
-    <q-btn
-      :disable="selectedLogEntriesCount === 0"
-      @click="onSerializeSelectedClicked"
-      class="q-ma-sm"
-      dense
-      flat
-      icon="mdi-json"
-      label="Serialize selected"
-      size="small"
-    />
-    <q-btn
-      :disable="selectedLogEntriesCount !== 1"
-      @click="onCopyMessageClicked"
-      class="q-ma-sm"
-      dense
-      flat
-      icon="mdi-content-copy"
-      label="Copy message"
-      size="small"
-    />
-    <q-btn
-      @click="onClearLogClicked"
-      icon="mdi-spray-bottle"
-      class="q-ma-sm"
-      dense
-      flat
-      label="Clear log"
-      size="small"
-    />
-    <q-btn
-      v-if="autoscroll"
-      color="info"
-      dense
-      disable
-      icon="mdi-format-vertical-align-bottom"
-      round
-    />
-    <q-btn
-      v-if="!autoscroll"
-      color="info"
-      dense
-      disable
-      icon="mdi-arrow-expand-vertical"
-      round
-    />
-  </q-toolbar>
+    <CleanLogButton class="on-left" />
+    <ServerToggle class="on-left" />
+    <AutoscrollToggle class="on-left" />
+    <SettingsButton class="on-left" />
+
+    <q-btn dense flat icon="minimize" @click="minimize" />
+    <q-btn dense flat icon="crop_square" @click="maximize" />
+    <q-btn dense flat icon="close" @click="closeApp" />
+  </q-bar>
 </template>
 
 <script lang="ts">
 // Vue
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import AutoscrollToggle from './AutoscrollToggle.vue';
+import CleanLogButton from './CleanLogButton.vue';
+import ServerToggle from './ServerToggle.vue';
+import SettingsButton from './SettingsButton.vue';
 
 // Store modules
-import { getModule} from 'vuex-module-decorators';
+import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
-import { ILogEntry } from '../modules/common/ILogEntry';
-
-// Others
-import { Clipboard } from '../modules/common/Clipboard';
-import { LogFilter } from '../modules/log/LogFilter';
 
 @Component({
-  components: { }
+  components: { SettingsButton, AutoscrollToggle, ServerToggle, CleanLogButton }
 })
 export default class MainToolbar extends Vue {
-  logStore: LogStoreModule = getModule(LogStoreModule);
+  log = getModule(LogStoreModule);
 
-  tagFilter: string = '';
-
-  onClearLogClicked() {
-    this.logStore.clearLogs();
+  get title() {
+    return `${this.$q.electron.remote.app.getName()} ${this.$q.electron.remote.app.getVersion()}`;
   }
 
-  get autoscroll(): boolean {
-    return this.logStore.autoscroll;
-  }
-
-  get selectedLogEntries(): ILogEntry[] {
-    return this.logStore.selected;
-  }
-
-  get selectedLogEntriesCount(): number {
-    return this.selectedLogEntries.length;
-  }
-
-  onSerializeSelectedClicked() {
-    Clipboard.Copy(JSON.stringify(this.selectedLogEntries));
-  }
-
-  onCopyMessageClicked() {
-    Clipboard.Copy(this.selectedLogEntries[0].message);
-  }
-
-  onTagFilterTextChange(value: string) {
-    const filter = new LogFilter();
-    if (value == null || value === '') {
-      this.logStore.setFilter(filter);
-      return;
+  minimize() {
+    if (process.env.MODE === 'electron') {
+      this.$q.electron.remote.BrowserWindow.getFocusedWindow().minimize();
     }
+  }
 
-    filter.isActive = true;
-    filter.tagFilter = value;
-    this.logStore.setFilter(filter);
+  maximize() {
+    if (process.env.MODE === 'electron') {
+      const window = this.$q.electron.remote.BrowserWindow.getFocusedWindow();
+
+      if (window.isMaximized()) {
+        window.unmaximize();
+      } else {
+        window.maximize();
+      }
+    }
+  }
+
+  closeApp() {
+    if (process.env.MODE === 'electron') {
+      this.$q.electron.remote.BrowserWindow.getFocusedWindow().close();
+    }
   }
 }
 </script>

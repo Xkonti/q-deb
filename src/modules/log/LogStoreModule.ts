@@ -1,4 +1,4 @@
-import { Action, Module, Mutation, VuexModule} from 'vuex-module-decorators';
+import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
 import Store from '../../store/index';
 import { ILogEntry } from '../common/ILogEntry';
 import { LogFilter } from './LogFilter';
@@ -7,7 +7,7 @@ import { LogFilter } from './LogFilter';
   dynamic: true,
   store: Store,
   name: 'log',
-  namespaced: true,
+  namespaced: true
 })
 export default class LogStoreModule extends VuexModule {
   public autoscroll: boolean = true;

@@ -2,18 +2,19 @@ import { ILogEntry } from '../common/ILogEntry';
 
 export class LogFilter {
   public isActive: boolean = false;
-  public messageFilter: string|null = null;
-  public sourceFilter: string|null = null;
-  public tagFilter: string|null = null;
-  public timestampFilterEnd: Date|null = null;
-  public timestampFilterStart: Date|null = null;
+  public messageFilter: string | null = null;
+  public sourceFilter: string | null = null;
+  public tagFilter: string | null = null;
+  public timestampFilterEnd: Date | null = null;
+  public timestampFilterStart: Date | null = null;
 
   public matchEntry(entry: ILogEntry): boolean {
     if (!this.isActive) return true;
+    if (entry == null) return false;
 
     if (this.messageFilter != null) {
-      // TODO: Add message filtering
-      return false;
+      if (entry.message == null || !entry.message.includes(this.messageFilter))
+        return false;
     }
 
     if (this.sourceFilter != null) {
@@ -22,7 +23,8 @@ export class LogFilter {
     }
 
     if (this.tagFilter != null) {
-      if (!entry.tags.includes(this.tagFilter)) return false;
+      if (entry.tags == null || !entry.tags.includes(this.tagFilter))
+        return false;
     }
 
     if (this.timestampFilterEnd != null) {

@@ -1,29 +1,31 @@
+import { EServerStatus } from './modules/common/EServerStatus';
 <template>
   <div id="q-app">
     <router-view />
+    <ServerManager />
   </div>
 </template>
 
 <script lang="ts">
 // Vue
 import Vue from 'vue';
-import { Component,  } from 'vue-property-decorator';
-
+import { Component } from 'vue-property-decorator';
 // Store modules
-import { getModule} from 'vuex-module-decorators';
+import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from './modules/log/LogStoreModule';
-
 // Electron
 import { ipcRenderer } from 'electron';
-
 // Other
 import { ILogEntryDto } from './modules/common/ILogEntryDto';
-
-@Component
+import ServerManager from './modules/server/ServerManager.vue';
+@Component({
+  components: { ServerManager }
+})
 export default class App extends Vue {
-  logStore: LogStoreModule = getModule(LogStoreModule);
+  logStore = getModule(LogStoreModule);
 
   mounted() {
+    ipcRenderer.removeAllListeners('new-messages');
     ipcRenderer.on('new-messages', this.onNewMessages);
 
     // Refresh messages on an interval

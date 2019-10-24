@@ -4,14 +4,12 @@
     :virtual-scroll-item-size="23"
     :virtual-scroll-slice-size="80"
     :items="log"
-    @virtual-scroll="onVirtualScroll"
     ref="logList"
     dense
     separator="cell"
     square
     wrap-cells
-    >
-
+  >
     <template v-slot:before>
       <thead class="thead-sticky text-left">
         <tr>
@@ -24,11 +22,13 @@
       </thead>
     </template>
 
-    <template
-      v-slot="{ item: row, index }"
-      class="text-left"
-    >
-      <tr :key="index" :class="`${getLevelRowBgColor(row.level)} ${getLevelRowTextColor(row.level)}`">
+    <template v-slot="{ item: row, index }" class="text-left">
+      <tr
+        :key="index"
+        :class="
+          `${getLevelRowBgColor(row.level)} ${getLevelRowTextColor(row.level)}`
+        "
+      >
         <td>
           <q-chip
             :color="getLevelChipBgColor(row.level)"
@@ -36,26 +36,21 @@
             dense
             square
           >
-            {{row.level}}
+            {{ row.level }}
           </q-chip>
         </td>
-        <td>{{getFormattedDate(row.timestamp)}}</td>
-        <td>{{row.source}}</td>
-        <td>{{row.message}}</td>
+        <td>{{ getFormattedDate(row.timestamp) }}</td>
+        <td>{{ row.source }}</td>
+        <td>{{ row.message }}</td>
         <td>
           <span v-for="tag in row.tags" :key="tag">
-            <q-chip
-              dense
-              square
-              class="q-py-none q-px-xs"
-            >
-              {{tag}}
+            <q-chip dense square class="q-py-none q-px-xs">
+              {{ tag }}
             </q-chip>
           </span>
         </td>
       </tr>
     </template>
-
   </q-virtual-scroll>
 </template>
 
@@ -66,7 +61,7 @@ import { Component, Watch } from 'vue-property-decorator';
 import { QVirtualScroll } from 'quasar';
 
 // Store modules
-import { getModule} from 'vuex-module-decorators';
+import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from './LogStoreModule';
 
 // Others
@@ -96,19 +91,30 @@ export default class LogEntryList extends Vue {
   getSelectedString() {
     return this.selected.length === 0
       ? ''
-      : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.logStore.filteredLog.length}`
+      : `${this.selected.length} record${
+          this.selected.length > 1 ? 's' : ''
+        } selected of ${this.logStore.filteredLog.length}`;
   }
 
   getFormattedDate(date: Date): string {
-    return `${date.getFullYear()}-${this.normalize(date.getMonth())}-${this.normalize(date.getDay())} ${this.normalize(date.getHours())}:${this.normalize(date.getMinutes())}:${this.normalize(date.getSeconds())} (${date.getMilliseconds()})`;
+    return `${date.getFullYear()}-${this.normalize(
+      date.getMonth()
+    )}-${this.normalize(date.getDay())} ${this.normalize(
+      date.getHours()
+    )}:${this.normalize(date.getMinutes())}:${this.normalize(
+      date.getSeconds()
+    )} (${date.getMilliseconds()})`;
   }
 
   getLevelRowBgColor(level: string): string {
     const normalizedLevel = level == null ? '' : level.toLowerCase();
     switch (normalizedLevel) {
-      case 'error': return 'bg-red-3';
-      case 'critical': return 'bg-red-14';
-      case 'warn': return 'bg-yellow-2';
+      case 'error':
+        return 'bg-red-3';
+      case 'critical':
+        return 'bg-red-14';
+      case 'warn':
+        return 'bg-yellow-2';
     }
 
     return 'white';
@@ -129,11 +135,16 @@ export default class LogEntryList extends Vue {
   getLevelChipBgColor(level: string): string {
     const normalizedLevel = level == null ? '' : level.toLowerCase();
     switch (normalizedLevel) {
-      case 'info': return 'blue-3';
-      case 'error': return 'red-10';
-      case 'critical': return 'yellow';
-      case 'warn': return 'amber-4';
-      case 'debug': return 'light-green-2';
+      case 'info':
+        return 'blue-3';
+      case 'error':
+        return 'red-10';
+      case 'critical':
+        return 'yellow';
+      case 'warn':
+        return 'amber-4';
+      case 'debug':
+        return 'light-green-2';
     }
 
     return 'grey-2';
@@ -142,7 +153,8 @@ export default class LogEntryList extends Vue {
   getLevelChipTextColor(level: string): string {
     const normalizedLevel = level == null ? '' : level.toLowerCase();
     switch (normalizedLevel) {
-      case 'error': return 'white';
+      case 'error':
+        return 'white';
     }
 
     return 'black';
@@ -152,11 +164,6 @@ export default class LogEntryList extends Vue {
     let text = `${value}`;
     if (text.length < 2) return `0${text}`;
     return text;
-  }
-
-  onVirtualScroll({ index }: { index: number }) {
-    this.bottomRowIndex = index;
-    this.logStore.setAutoscroll(index + 1 === this.log.length);
   }
 
   @Watch('log')
@@ -170,13 +177,13 @@ export default class LogEntryList extends Vue {
 </script>
 
 <style lang="stylus">
-  .thead-sticky tr > *
-    position sticky
-    opacity 1
-    z-index 1
-    background black
-    color white
+.thead-sticky tr > *
+  position sticky
+  opacity 1
+  z-index 1
+  background black
+  color white
 
-  .thead-sticky tr:last-child > *
-    top 0
+.thead-sticky tr:last-child > *
+  top 0
 </style>

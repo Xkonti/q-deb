@@ -9,7 +9,7 @@
     <AutoscrollToggle class="on-left" />
     <SettingsButton class="on-left" />
 
-    <q-btn dense flat icon="minimize" @click="minimize" class="on-right" />
+    <q-btn dense flat icon="minimize" @click="minimize" />
     <q-btn dense flat icon="crop_square" @click="maximize" />
     <q-btn dense flat icon="close" @click="closeApp" />
   </q-bar>

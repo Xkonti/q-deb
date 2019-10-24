@@ -2,7 +2,7 @@ import { EServerStatus } from './modules/common/EServerStatus';
 <template>
   <div id="q-app">
     <router-view />
-    <ServerManager/>
+    <ServerManager />
   </div>
 </template>
 

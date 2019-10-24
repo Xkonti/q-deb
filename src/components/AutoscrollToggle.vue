@@ -1,12 +1,7 @@
 <template>
-  <q-btn
-    dense
-    :icon="`mdi-${isAutoscrollOn ? 'format-vertical-align-bottom' : 'arrow-expand-vertical'}`"
-    @click="toggleAutoscroll"
-    flat
-  >
+  <q-btn :icon="icon" dense flat @click="toggleAutoscroll">
     <q-tooltip>
-      Auto-scroll is {{isAutoscrollOn ? "active" : "inactive"}}
+      Auto-scroll is {{ isAutoscrollOn ? 'active' : 'inactive' }}
     </q-tooltip>
   </q-btn>
 </template>
@@ -23,6 +18,12 @@ import LogStoreModule from '../modules/log/LogStoreModule';
 @Component
 export default class AutoscrollToggle extends Vue {
   log = getModule(LogStoreModule);
+
+  get icon(): string {
+    return this.isAutoscrollOn
+      ? 'mdi-format-vertical-align-bottom'
+      : 'mdi-arrow-expand-vertical';
+  }
 
   get isAutoscrollOn(): boolean {
     return this.log.autoscroll;

@@ -12,12 +12,12 @@
 
     <q-input
       v-model="tagFilter"
-      @input="updateFilter"
       class="on-left"
       dark
       dense
       filled
       label="Tag filter"
+      @input="updateFilter"
     />
   </q-toolbar>
 </template>

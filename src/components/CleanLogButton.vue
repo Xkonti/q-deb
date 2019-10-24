@@ -1,11 +1,11 @@
 <template>
   <q-btn
-    @click="onClearLogClicked"
-    icon="mdi-spray-bottle"
     class="on-right"
     dense
     flat
+    icon="mdi-spray-bottle"
     label="clean"
+    @click="onClearLogClicked"
   >
     <q-tooltip>
       Clear log

@@ -1,14 +1,12 @@
 <template>
   <q-btn
-    :icon="`mdi-${isServerListening ? 'earth' : 'earth-off'}`"
+    :icon="icon"
     :loading="isServerTransitioning"
     dense
     flat
     @click="toggleServer"
   >
-    <q-tooltip>
-      Server is {{serverStatus}}
-    </q-tooltip>
+    <q-tooltip> Server is {{ serverStatus }} </q-tooltip>
   </q-btn>
 </template>
 
@@ -25,8 +23,8 @@ import ServerStoreModule from '../modules/server/ServerStoreModule';
 export default class ServerToggle extends Vue {
   server = getModule(ServerStoreModule);
 
-  get serverStatus(): string {
-    return this.server.status;
+  get icon(): string {
+    return this.isServerListening ? 'mdi-earth' : 'mdi-earth-off';
   }
 
   get isServerListening(): boolean {
@@ -37,6 +35,10 @@ export default class ServerToggle extends Vue {
     return (
       this.server.status === 'starting' || this.server.status === 'stopping'
     );
+  }
+
+  get serverStatus(): string {
+    return this.server.status;
   }
 
   toggleServer() {

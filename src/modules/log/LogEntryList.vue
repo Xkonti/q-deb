@@ -92,8 +92,8 @@ export default class LogEntryList extends Vue {
     return this.selected.length === 0
       ? ''
       : `${this.selected.length} record${
-        this.selected.length > 1 ? 's' : ''
-      } selected of ${this.logStore.filteredLog.length}`;
+          this.selected.length > 1 ? 's' : ''
+        } selected of ${this.logStore.filteredLog.length}`;
   }
 
   getFormattedDate(date: Date): string {

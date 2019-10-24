@@ -16,11 +16,12 @@ import ServerStoreModule from './ServerStoreModule';
 import { ipcRenderer } from 'electron';
 
 // Others
+import { ServerSettings } from './ServerSettings';
 import { EServerStatus } from '../common/EServerStatus';
 
 @Component
 export default class ServerManager extends Vue {
-  serverStore = getModule(ServerStoreModule);
+  server = getModule(ServerStoreModule);
 
   areEventsRegistered = false;
 
@@ -31,21 +32,24 @@ export default class ServerManager extends Vue {
     ipcRenderer.on('start-server-status', this.onStartServerStatus);
     ipcRenderer.on('stop-server-status', this.onStopServerStatus);
     this.areEventsRegistered = false;
+
+    // Auto-start the server
+    this.server.startServer(new ServerSettings());
   }
 
   onStartServerStatus(event: object, arg: boolean) {
     if (arg) {
-      this.serverStore.setServerStatus(EServerStatus.On);
+      this.server.setServerStatus(EServerStatus.On);
     } else {
-      this.serverStore.setServerStatus(EServerStatus.Off);
+      this.server.setServerStatus(EServerStatus.Off);
     }
   }
 
   onStopServerStatus(event: object, arg: boolean) {
     if (arg) {
-      this.serverStore.setServerStatus(EServerStatus.Off);
+      this.server.setServerStatus(EServerStatus.Off);
     } else {
-      this.serverStore.setServerStatus(EServerStatus.On);
+      this.server.setServerStatus(EServerStatus.On);
     }
   }
 }

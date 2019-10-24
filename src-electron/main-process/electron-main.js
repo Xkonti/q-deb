@@ -33,14 +33,14 @@ function createWindow() {
    */
 
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 600,
+    width: 1100,
+    height: 700,
     useContentSize: true,
+    frame: false,
     webPreferences: {
       nodeIntegration: true
     }
   });
-
   mainWindow.loadURL(process.env.APP_URL);
   mainWindow.on('closed', () => {
     if (logListener != null) {

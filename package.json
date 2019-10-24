@@ -1,6 +1,6 @@
 {
   "name": "q-deb",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A simple logging application.",
   "productName": "QDeb",
   "cordovaId": "org.cordova.quasar.app",

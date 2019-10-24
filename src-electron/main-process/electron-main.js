@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain, dialog, clipboard } from 'electron';
-import { start } from './server';
+import LogListener from './log-listener';
 
 /**
  * Set `__statics` path to static files in production;
@@ -20,34 +20,35 @@ function getNextId() {
 
 let mainWindow;
 
+/**
+ * @type {LogListener}
+ */
+let logListener;
+
+let newMessages = [];
+
 function createWindow() {
   /**
    * Initial window options
    */
-  let e = 'Creating server';
 
-  start(addMessage)
-    .then(() => {
-      mainWindow = new BrowserWindow({
-        width: 1000,
-        height: 600,
-        useContentSize: true,
-        webPreferences: {
-          nodeIntegration: true
-        }
-      });
+  mainWindow = new BrowserWindow({
+    width: 1000,
+    height: 600,
+    useContentSize: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
+  });
 
-      mainWindow.loadURL(process.env.APP_URL);
-      mainWindow.on('closed', () => {
-        mainWindow = null;
-      });
-    })
-    .catch(reason => {
-      dialog.showMessageBox({
-        title: 'Electron error',
-        message: reason
-      });
-    });
+  mainWindow.loadURL(process.env.APP_URL);
+  mainWindow.on('closed', () => {
+    if (logListener != null) {
+      logListener.stop();
+      logListener = null;
+    }
+    mainWindow = null;
+  });
 }
 
 function addMessage(request) {
@@ -88,8 +89,6 @@ app.on('activate', () => {
   }
 });
 
-let newMessages = [];
-
 function showDialog(message) {
   dialog.showMessageBox({
     title: 'Got new message',
@@ -97,13 +96,31 @@ function showDialog(message) {
   });
 }
 
+function getServerStatus() {
+  if (logListener == null) return 'not existing';
+  return logListener.status;
+}
+
+ipcMain.on('start-server', async (event, settings) => {
+  if (logListener != null && logListener.isOff)
+    event.reply('start-server-status', false);
+  logListener = new LogListener(settings, addMessage);
+  let result = await logListener.start();
+  event.reply('start-server-status', result);
+});
+
+ipcMain.on('stop-server', async (event) => {
+  if (logListener == null || !logListener.isOn)
+    event.reply('stop-server-status', false);
+  let result = await logListener.stop();
+  event.reply('stop-server-status', result);
+});
+
 ipcMain.on('add-new-message', (event, arg) => {
-  //showDialog(`Received new message: ${JSON.stringify(arg)}`);
   newMessages.push(arg);
 });
 
-ipcMain.on('get-new-messages', (event, arg) => {
-  //showDialog(`Sending all messages: ${JSON.stringify(newMessages)}`);
+ipcMain.on('get-new-messages', (event) => {
   event.reply('new-messages', newMessages);
   newMessages = [];
 });

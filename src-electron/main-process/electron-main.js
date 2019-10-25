@@ -1,5 +1,6 @@
-import { app, BrowserWindow, ipcMain, dialog, clipboard } from 'electron';
+import { app, BrowserWindow, ipcMain, clipboard } from 'electron';
 import LogListener from './log-listener';
+import { nextNumber } from '../helpers/unique-ids';
 
 /**
  * Set `__statics` path to static files in production;
@@ -9,13 +10,6 @@ if (process.env.PROD) {
   global.__statics = require('path')
     .join(__dirname, 'statics')
     .replace(/\\/g, '\\\\');
-}
-
-let nextId = 0;
-function getNextId() {
-  const id = nextId;
-  nextId++;
-  return id;
 }
 
 let mainWindow;
@@ -54,7 +48,7 @@ function createWindow() {
 function addMessage(request) {
   try {
     newMessages.push({
-      id: getNextId(),
+      id: nextNumber(),
       exception: request.body.exception,
       level: request.body.level,
       message: request.body.message,
@@ -88,18 +82,6 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-function showDialog(message) {
-  dialog.showMessageBox({
-    title: 'Got new message',
-    message: message
-  });
-}
-
-function getServerStatus() {
-  if (logListener == null) return 'not existing';
-  return logListener.status;
-}
 
 ipcMain.on('start-server', async (event, settings) => {
   if (logListener != null && logListener.isOff)

@@ -1,8 +1,8 @@
 import * as fastifyModule from 'fastify';
-import { dialog } from 'electron';
+import { dialog } from '../dialogs/dialogs';
+import { DialogMessage } from '../dialogs/dialog-message';
 
 export default class LogListener {
-
   /**
    * Instance of the fastify server.
    * @private
@@ -113,7 +113,12 @@ export default class LogListener {
       return true;
     } catch (err) {
       this._status = 'off';
-      this.showDialog(`ll: Encountered error when starting the server: ${err}`);
+      dialog.showAlert(
+        new DialogMessage(
+          `Encountered error when starting the server: ${err}`,
+          'Server error'
+        )
+      );
       return false;
     }
   }

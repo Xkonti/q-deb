@@ -1,7 +1,8 @@
-import { EServerStatus } from './modules/common/EServerStatus';
 <template>
   <div id="q-app">
     <router-view />
+
+    <ElectronDialogs />
     <ServerManager />
   </div>
 </template>
@@ -10,16 +11,21 @@ import { EServerStatus } from './modules/common/EServerStatus';
 // Vue
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+
 // Store modules
 import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from './modules/log/LogStoreModule';
+
 // Electron
 import { ipcRenderer } from 'electron';
+
 // Other
-import { ILogEntryDto } from './modules/common/ILogEntryDto';
+import ElectronDialogs from './modules/electron/ElectronDialogs.vue';
 import ServerManager from './modules/server/ServerManager.vue';
+import { ILogEntryDto } from './modules/common/ILogEntryDto';
+
 @Component({
-  components: { ServerManager }
+  components: { ElectronDialogs, ServerManager }
 })
 export default class App extends Vue {
   logStore = getModule(LogStoreModule);

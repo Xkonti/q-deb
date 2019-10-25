@@ -4,7 +4,7 @@
     dense
     flat
     icon="mdi-spray-bottle"
-    label="clean"
+    label="clear"
     @click="onClearLogClicked"
   >
     <q-tooltip>
@@ -23,7 +23,7 @@ import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
 
 @Component
-export default class AutoscrollToggle extends Vue {
+export default class ClearLogButton extends Vue {
   log = getModule(LogStoreModule);
 
   onClearLogClicked() {

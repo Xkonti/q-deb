@@ -20,7 +20,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import AutoscrollToggle from './AutoscrollToggle.vue';
-import CleanLogButton from './CleanLogButton.vue';
+import CleanLogButton from './ClearLogButton.vue';
 import ServerToggle from './ServerToggle.vue';
 import SettingsButton from './SettingsButton.vue';
 

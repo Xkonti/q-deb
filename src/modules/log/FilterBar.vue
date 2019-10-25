@@ -29,10 +29,10 @@ import { Component } from 'vue-property-decorator';
 
 // Store modules
 import { getModule } from 'vuex-module-decorators';
-import LogStoreModule from '../modules/log/LogStoreModule';
+import LogStoreModule from './LogStoreModule';
 
 // Others
-import { LogFilter } from '../modules/log/LogFilter';
+import { LogFilter } from './LogFilter';
 
 @Component({
   components: {}

@@ -14,7 +14,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import MainToolbar from '../../components/MainToolbar.vue';
-import FilterBar from '../../components/FilterBar.vue';
+import FilterBar from '../../modules/log/FilterBar.vue';
 
 @Component({
   components: { FilterBar, MainToolbar }

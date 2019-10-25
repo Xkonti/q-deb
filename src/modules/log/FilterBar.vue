@@ -4,6 +4,7 @@
       v-model="sourceFilter"
       @input="updateFilter"
       class="on-left"
+      clearable
       dark
       dense
       filled
@@ -14,6 +15,7 @@
       v-model="messageFilter"
       @input="updateFilter"
       class="on-left"
+      clearable
       dark
       dense
       filled
@@ -23,6 +25,7 @@
     <q-input
       v-model="tagFilter"
       class="on-left"
+      clearable
       dark
       dense
       filled

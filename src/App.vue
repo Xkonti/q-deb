@@ -1,7 +1,8 @@
-import { EServerStatus } from './modules/common/EServerStatus';
 <template>
   <div id="q-app">
     <router-view />
+
+    <ElectronDialogs />
     <ServerManager />
   </div>
 </template>
@@ -10,16 +11,21 @@ import { EServerStatus } from './modules/common/EServerStatus';
 // Vue
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+
 // Store modules
 import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from './modules/log/LogStoreModule';
+
 // Electron
 import { ipcRenderer } from 'electron';
+
 // Other
 import { ILogEntryDto } from './modules/common/ILogEntryDto';
 import ServerManager from './modules/server/ServerManager.vue';
+import ElectronDialogs from './modules/electron/ElectronDialogs.vue';
+
 @Component({
-  components: { ServerManager }
+  components: { ElectronDialogs, ServerManager }
 })
 export default class App extends Vue {
   logStore = getModule(LogStoreModule);
@@ -27,11 +33,9 @@ export default class App extends Vue {
   mounted() {
     ipcRenderer.removeAllListeners('new-messages');
     ipcRenderer.on('new-messages', this.onNewMessages);
-    ipcRenderer.on('dialog-show', this.onDialogShow);
 
     // Refresh messages on an interval
     setInterval(() => ipcRenderer.send('get-new-messages', null), 100);
-    setInterval(() => ipcRenderer.send('get-dialog', null), 100);
   }
 
   onNewMessages(event: object, arg: ILogEntryDto[]) {
@@ -46,11 +50,6 @@ export default class App extends Vue {
         timestamp: new Date(message.timestamp)
       });
     });
-  }
-
-  onDialogShow(event: object, arg: {type: string, message: string, title: string}) {
-    if (arg == null) return;
-    console.log(`${arg.type}: ${arg.title} - ${arg.message}`);
   }
 }
 </script>

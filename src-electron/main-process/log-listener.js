@@ -1,5 +1,5 @@
 import * as fastifyModule from 'fastify';
-import { dialog } from 'electron';
+import { dialog } from './helpers/dialogs'
 
 export default class LogListener {
 
@@ -113,7 +113,7 @@ export default class LogListener {
       return true;
     } catch (err) {
       this._status = 'off';
-      this.showDialog(`ll: Encountered error when starting the server: ${err}`);
+      dialog.show({type: 'error', message: `Encountered error when starting the server: ${err}`, title: 'Server error'});
       return false;
     }
   }

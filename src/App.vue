@@ -27,9 +27,11 @@ export default class App extends Vue {
   mounted() {
     ipcRenderer.removeAllListeners('new-messages');
     ipcRenderer.on('new-messages', this.onNewMessages);
+    ipcRenderer.on('dialog-show', this.onDialogShow);
 
     // Refresh messages on an interval
     setInterval(() => ipcRenderer.send('get-new-messages', null), 100);
+    setInterval(() => ipcRenderer.send('get-dialog', null), 100);
   }
 
   onNewMessages(event: object, arg: ILogEntryDto[]) {
@@ -44,6 +46,11 @@ export default class App extends Vue {
         timestamp: new Date(message.timestamp)
       });
     });
+  }
+
+  onDialogShow(event: object, arg: {type: string, message: string, title: string}) {
+    if (arg == null) return;
+    console.log(`${arg.type}: ${arg.title} - ${arg.message}`);
   }
 }
 </script>

@@ -1,6 +1,16 @@
 <template>
   <q-toolbar>
     <q-input
+      v-model="sourceFilter"
+      @input="updateFilter"
+      class="on-left"
+      dark
+      dense
+      filled
+      label="Source filter"
+    />
+
+    <q-input
       v-model="messageFilter"
       @input="updateFilter"
       class="on-left"
@@ -41,6 +51,7 @@ export default class FilterBar extends Vue {
   logStore = getModule(LogStoreModule);
 
   messageFilter: string = '';
+  sourceFilter: string = '';
   tagFilter: string = '';
 
   getNullOrValue(value: string): string | null {
@@ -50,9 +61,13 @@ export default class FilterBar extends Vue {
 
   updateFilter() {
     const filter = new LogFilter();
-    filter.tagFilter = this.getNullOrValue(this.tagFilter);
     filter.messageFilter = this.getNullOrValue(this.messageFilter);
-    filter.isActive = filter.tagFilter != null || filter.messageFilter != null;
+    filter.sourceFilter = this.getNullOrValue(this.sourceFilter);
+    filter.tagFilter = this.getNullOrValue(this.tagFilter);
+    filter.isActive =
+      filter.messageFilter != null ||
+      filter.sourceFilter != null ||
+      filter.tagFilter != null;
     this.logStore.setFilter(filter);
   }
 }

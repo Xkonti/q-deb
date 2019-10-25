@@ -30,7 +30,7 @@ export class DialogMessage {
 
     /**
      * A type of the message.
-     * @type {'alert' | 'confirm' | 'prompt'}
+     * @type {'alert' | 'confirm'}
      */
     this.type = 'alert';
   }

@@ -20,9 +20,9 @@ import LogStoreModule from './modules/log/LogStoreModule';
 import { ipcRenderer } from 'electron';
 
 // Other
-import { ILogEntryDto } from './modules/common/ILogEntryDto';
-import ServerManager from './modules/server/ServerManager.vue';
 import ElectronDialogs from './modules/electron/ElectronDialogs.vue';
+import ServerManager from './modules/server/ServerManager.vue';
+import { ILogEntryDto } from './modules/common/ILogEntryDto';
 
 @Component({
   components: { ElectronDialogs, ServerManager }

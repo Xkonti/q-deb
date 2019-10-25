@@ -20,10 +20,18 @@ import { DialogType } from './DialogType';
 export default class ElectronDialogs extends Vue {
   areEventsRegistered = false;
 
+  /**
+   * Sends request to the main thread for next dialog.
+   */
   checkData() {
     ipcRenderer.send('get-dialog', null);
   }
 
+  /**
+   * Action performed when main thread sends back data for the next dialog to show.
+   * @param event Event data.
+   * @param data Dialog data.
+   */
   onDialogShow(event: object, data: DialogMessage) {
     if (data == null) {
       setTimeout(this.checkData, 100);
@@ -52,6 +60,11 @@ export default class ElectronDialogs extends Vue {
     this.areEventsRegistered = true;
   }
 
+  /**
+   * Sends confirm dialog result back to the main thread.
+   * @param dialogId Id of the dialog this response refers to.
+   * @param dialogResult User's input: `true` = `OK`; `false` = `CANCEL`;
+   */
   sendConfirmDialogResponse(dialogId: number, dialogResult: boolean) {
     ipcRenderer.send('dialog-confirm-response', {
       id: dialogId,
@@ -59,6 +72,11 @@ export default class ElectronDialogs extends Vue {
     });
   }
 
+  /**
+   * Shows alert dialog. This is the simplest dialog that shows the message to the user.
+   * Nothing is sent back to the main thread.
+   * @param data Dialog data.
+   */
   showAlert(data: DialogMessage) {
     this.$q
       .dialog({
@@ -73,6 +91,11 @@ export default class ElectronDialogs extends Vue {
       });
   }
 
+  /**
+   * Shows confirm dialog. This dialog requires from the user to select the `Ok` or `Cancel` option.
+   * User's input is sent back to the main thread, so it can react accordingly.
+   * @param data Dialog data.
+   */
   showConfirm(data: DialogMessage) {
     this.$q
       .dialog({

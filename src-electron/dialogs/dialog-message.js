@@ -1,7 +1,7 @@
 import { nextNumber } from '../helpers/unique-ids';
 
 /**
- * A class representing a dialog data.
+ * A class representing dialog data.
  */
 export class DialogMessage {
   /**
@@ -11,7 +11,7 @@ export class DialogMessage {
    */
   constructor(message = '', title = 'Message') {
     /**
-     * Id of the message.
+     * Id of the dialog.
      * @type {number}
      */
     this.id = nextNumber();
@@ -23,13 +23,13 @@ export class DialogMessage {
     this.message = message;
 
     /**
-     * A title for the message.
+     * A title of the dialog.
      * @type {string}
      */
     this.title = title;
 
     /**
-     * A type of the message.
+     * A type of the dialog.
      * @type {'alert' | 'confirm'}
      */
     this.type = 'alert';

@@ -18,8 +18,8 @@ export class LogFilter {
     }
 
     if (this.sourceFilter != null) {
-      // TODO: Add source filtering
-      return false;
+      if (entry.source == null || !entry.source.includes(this.sourceFilter))
+        return false;
     }
 
     if (this.tagFilter != null) {

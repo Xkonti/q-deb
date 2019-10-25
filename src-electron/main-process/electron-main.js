@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, dialog, clipboard } from 'electron';
+import { app, BrowserWindow, ipcMain, clipboard } from 'electron';
 import LogListener from './log-listener';
 import { nextNumber } from '../helpers/unique-ids';
 
@@ -82,18 +82,6 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
-function showDialog(message) {
-  dialog.showMessageBox({
-    title: 'Got new message',
-    message: message
-  });
-}
-
-function getServerStatus() {
-  if (logListener == null) return 'not existing';
-  return logListener.status;
-}
 
 ipcMain.on('start-server', async (event, settings) => {
   if (logListener != null && logListener.isOff)

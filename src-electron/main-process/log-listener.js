@@ -114,7 +114,7 @@ export default class LogListener {
     } catch (err) {
       this._status = 'off';
       this.showDialog(`ll: Encountered error when starting the server: ${err}`);
-      throw new Error(`Encountered an error when starting server on port ${this._port}: ${err}`);
+      return false;
     }
   }
 

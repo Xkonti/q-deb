@@ -31,7 +31,7 @@ export default class ServerManager extends Vue {
     ipcRenderer.removeAllListeners('stop-server-status');
     ipcRenderer.on('start-server-status', this.onStartServerStatus);
     ipcRenderer.on('stop-server-status', this.onStopServerStatus);
-    this.areEventsRegistered = false;
+    this.areEventsRegistered = true;
 
     // Auto-start the server
     this.server.startServer(new ServerSettings());

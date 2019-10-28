@@ -75,7 +75,7 @@ export default class FilterBar extends Vue {
     const filter = new LogFilter();
     filter.messageFilter = this.getNullOrValue(this.messageFilter);
     filter.sourceFilter = this.getNullOrValue(this.sourceFilter);
-    filter.severityFilter = this.severityFilter;
+    filter.severityFilter = this.severityFilter || [];
     filter.tagFilter = this.getNullOrValue(this.tagFilter);
     filter.isActive =
       filter.messageFilter != null ||

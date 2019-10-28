@@ -1,5 +1,7 @@
 <template>
   <q-toolbar>
+    <SeverityLevelFilterSelector @on-selection-change="onSeverityFilterChange"/>
+
     <q-input
       v-model="sourceFilter"
       @input="updateFilter"
@@ -46,14 +48,16 @@ import LogStoreModule from './LogStoreModule';
 
 // Others
 import { LogFilter } from './LogFilter';
+import SeverityLevelFilterSelector from './SeverityLevelFilterSelector.vue';
 
 @Component({
-  components: {}
+  components: { SeverityLevelFilterSelector }
 })
 export default class FilterBar extends Vue {
   logStore = getModule(LogStoreModule);
 
   messageFilter: string = '';
+  severityFilter: string[] = [];
   sourceFilter: string = '';
   tagFilter: string = '';
 
@@ -62,14 +66,21 @@ export default class FilterBar extends Vue {
     return value;
   }
 
+  onSeverityFilterChange(value: string[]) {
+    this.severityFilter = value;
+    this.updateFilter();
+  }
+
   updateFilter() {
     const filter = new LogFilter();
     filter.messageFilter = this.getNullOrValue(this.messageFilter);
     filter.sourceFilter = this.getNullOrValue(this.sourceFilter);
+    filter.severityFilter = this.severityFilter;
     filter.tagFilter = this.getNullOrValue(this.tagFilter);
     filter.isActive =
       filter.messageFilter != null ||
       filter.sourceFilter != null ||
+      filter.severityFilter.length > 0 ||
       filter.tagFilter != null;
     this.logStore.setFilter(filter);
   }

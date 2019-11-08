@@ -50,7 +50,7 @@ function addMessage(request) {
     newMessages.push({
       id: nextNumber(),
       exception: request.body.exception,
-      level: request.body.level,
+      level: request.body.level == null ? 'undefined' : request.body.level.toLowerCase(),
       message: request.body.message,
       source: request.body.source,
       tags: request.body.tags,

@@ -80,22 +80,6 @@ export default class LogEntryList extends Vue {
     return this.logStore.filteredLog;
   }
 
-  get selected(): ILogEntry[] {
-    return this.logStore.selected;
-  }
-
-  set selected(selectedEntries: ILogEntry[]) {
-    this.logStore.selectEntries(selectedEntries);
-  }
-
-  getSelectedString() {
-    return this.selected.length === 0
-      ? ''
-      : `${this.selected.length} record${
-          this.selected.length > 1 ? 's' : ''
-        } selected of ${this.logStore.filteredLog.length}`;
-  }
-
   getFormattedDate(date: Date): string {
     return `${date.getFullYear()}-${this.normalize(
       date.getMonth()

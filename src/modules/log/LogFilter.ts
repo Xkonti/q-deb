@@ -1,8 +1,10 @@
 import { ILogEntry } from '../common/ILogEntry';
+import { any } from '../linq/linq';
 
 export class LogFilter {
   public isActive: boolean = false;
   public messageFilter: string | null = null;
+  public severityFilter: string[] = [];
   public sourceFilter: string | null = null;
   public tagFilter: string | null = null;
   public timestampFilterEnd: Date | null = null;
@@ -14,6 +16,11 @@ export class LogFilter {
 
     if (this.messageFilter != null) {
       if (entry.message == null || !entry.message.includes(this.messageFilter))
+        return false;
+    }
+
+    if (this.severityFilter.length > 0) {
+      if (!any(this.severityFilter, (level) => entry.level.includes(level)))
         return false;
     }
 

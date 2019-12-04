@@ -1,6 +1,6 @@
 <template>
   <q-toolbar>
-    <SeverityLevelFilterSelector @on-selection-change="onSeverityFilterChange"/>
+    <SeverityLevelFilterSelector :selected.sync=severityFilter @update:selected="onSeverityFilterChange"/>
 
     <q-input
       v-model="sourceFilter"
@@ -66,8 +66,7 @@ export default class FilterBar extends Vue {
     return value;
   }
 
-  onSeverityFilterChange(value: string[]) {
-    this.severityFilter = value;
+  onSeverityFilterChange() {
     this.updateFilter();
   }
 

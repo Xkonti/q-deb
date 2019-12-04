@@ -19,12 +19,22 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Emit, Watch } from 'vue-property-decorator';
+import { Component, Emit, PropSync, Watch } from 'vue-property-decorator';
 
 @Component({
   components: {}
 })
 export default class SeverityLevelFilterSelector extends Vue {
+
+  @PropSync(
+    'selected',
+    {
+      type: Array,
+      required: true
+    }
+  )
+  selectedLevels!: string[];
+
   readonly defaultLevels = [
     'trace',
     'debug',
@@ -36,7 +46,6 @@ export default class SeverityLevelFilterSelector extends Vue {
 
   additionalLevels: string[] = [];
   levelFilter: string = '';
-  selectedLevels: string[] = [];
 
   get availableLevels(): string[] {
     return [...this.defaultLevels, ...this.additionalLevels];
@@ -66,12 +75,6 @@ export default class SeverityLevelFilterSelector extends Vue {
     update(() => {
       this.levelFilter = filter.toLowerCase();
     });
-  }
-
-  @Emit()
-  @Watch('selectedLevels')
-  onSelectionChange(): string[] {
-    return this.selectedLevels;
   }
 }
 </script>

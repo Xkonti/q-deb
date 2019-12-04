@@ -34,6 +34,17 @@
       standout="bg-accent text-white"
       @input="updateFilter"
     />
+
+    <q-space/>
+
+    <q-btn
+      v-if="isAnyFilter"
+      color="white"
+      dense
+      label="Clear filters"
+      outline
+      @click="clearFilters"
+    />
   </q-toolbar>
 </template>
 
@@ -79,6 +90,14 @@ export default class FilterBar extends Vue {
 
   get isTagFilter() {
     return this.tagFilter != null && this.tagFilter !== '';
+  }
+
+  clearFilters() {
+    this.severityFilter = [];
+    this.sourceFilter = '';
+    this.messageFilter = '';
+    this.tagFilter = '';
+    this.updateFilter();
   }
 
   getNullOrValue(value: string): string | null {

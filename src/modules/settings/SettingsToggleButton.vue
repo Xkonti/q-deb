@@ -1,11 +1,10 @@
 <template>
   <q-btn
-    :disable="true"
     class="q-ma-sm"
     dense
     flat
     icon="mdi-settings"
-    @click="onSettingsButtonClick"
+    @click="showSettingsDialog"
   />
 </template>
 
@@ -16,16 +15,16 @@ import { Component } from 'vue-property-decorator';
 
 // Store modules
 import { getModule } from 'vuex-module-decorators';
-import ServerStoreModule from '../modules/server/ServerStoreModule';
+import SettingsStoreModule from './SettingsStoreModule';
 
 @Component({
   components: {}
 })
-export default class SettingsButton extends Vue {
-  serverStore = getModule(ServerStoreModule);
+export default class SettingsToggleButton extends Vue {
+  settings = getModule(SettingsStoreModule);
 
-  onSettingsButtonClick() {
-    // Do something!
+  showSettingsDialog() {
+    this.settings.setIsDialogVisible(true);
   }
 }
 </script>

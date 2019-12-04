@@ -8,7 +8,7 @@
     <FiltersToggleButton class="on-left" />
     <ServerToggle class="on-left" />
     <AutoscrollToggle class="on-left" />
-    <SettingsButton class="on-left" />
+    <SettingsToggleButton class="on-left" />
 
     <q-btn dense flat icon="minimize" @click="minimize" />
     <q-btn dense flat icon="crop_square" @click="maximize" />
@@ -23,7 +23,7 @@ import { Component } from 'vue-property-decorator';
 import AutoscrollToggle from './AutoscrollToggle.vue';
 import CleanLogButton from './ClearLogButton.vue';
 import ServerToggle from './ServerToggle.vue';
-import SettingsButton from './SettingsButton.vue';
+import SettingsToggleButton from '../modules/settings/SettingsToggleButton.vue';
 
 // Store modules
 import { getModule } from 'vuex-module-decorators';
@@ -31,7 +31,7 @@ import LogStoreModule from '../modules/log/LogStoreModule';
 import FiltersToggleButton from '../modules/log/FiltersToggleButton.vue';
 
 @Component({
-  components: { FiltersToggleButton, SettingsButton, AutoscrollToggle, ServerToggle, CleanLogButton }
+  components: { FiltersToggleButton, SettingsToggleButton, AutoscrollToggle, ServerToggle, CleanLogButton }
 })
 export default class MainToolbar extends Vue {
   log = getModule(LogStoreModule);

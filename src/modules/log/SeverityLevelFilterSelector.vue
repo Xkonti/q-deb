@@ -1,15 +1,15 @@
 <template>
   <q-select
     v-model="selectedLevels"
+    :bg-color="(selectedLevels != null && selectedLevels.length > 0) ? 'accent' : 'primary'"
     :options="filteredLevels"
     class="on-left"
     clearable
-    dark
     dense
-    filled
     input-debounce="0"
     label="Severity filter"
     multiple
+    standout="bg-accent text-white"
     use-input
     use-chips
     @new-value="addNewLevel"

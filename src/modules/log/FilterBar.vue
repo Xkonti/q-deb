@@ -1,37 +1,37 @@
 <template>
-  <q-toolbar>
+  <q-toolbar :class="$q.dark.isActive ? 'bg-dark' : 'bg-primary'">
     <SeverityLevelFilterSelector :selected.sync=severityFilter @update:selected="onSeverityFilterChange"/>
 
     <q-input
       v-model="sourceFilter"
-      @input="updateFilter"
+      :bg-color="(sourceFilter != null && sourceFilter !== '') ? 'accent' : 'primary'"
       class="on-left"
       clearable
-      dark
       dense
-      filled
+      standout="bg-accent text-white"
       label="Source filter"
+      @input="updateFilter"
     />
 
     <q-input
       v-model="messageFilter"
-      @input="updateFilter"
+      :bg-color="(messageFilter != null && messageFilter !== '') ? 'accent' : 'primary'"
       class="on-left"
       clearable
-      dark
       dense
-      filled
       label="Message filter"
+      standout="bg-accent text-white"
+      @input="updateFilter"
     />
 
     <q-input
       v-model="tagFilter"
+      :bg-color="(tagFilter != null && tagFilter !== '') ? 'accent' : 'primary'"
       class="on-left"
       clearable
-      dark
       dense
-      filled
       label="Tag filter"
+      standout="bg-accent text-white"
       @input="updateFilter"
     />
   </q-toolbar>
@@ -60,6 +60,26 @@ export default class FilterBar extends Vue {
   severityFilter: string[] = [];
   sourceFilter: string = '';
   tagFilter: string = '';
+
+  get isAnyFilter() {
+    return this.isMessageFilter || this.isSeverityFilter || this.isSourceFilter || this.isTagFilter;
+  }
+
+  get isMessageFilter() {
+    return this.messageFilter != null && this.messageFilter !== '';
+  }
+
+  get isSeverityFilter() {
+    return this.severityFilter != null && this.severityFilter.length > 0;
+  }
+
+  get isSourceFilter() {
+    return this.sourceFilter != null && this.sourceFilter !== '';
+  }
+
+  get isTagFilter() {
+    return this.tagFilter != null && this.tagFilter !== '';
+  }
 
   getNullOrValue(value: string): string | null {
     if (value == null || value === '') return null;

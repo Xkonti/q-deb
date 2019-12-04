@@ -5,6 +5,7 @@
     <q-space />
 
     <CleanLogButton class="on-left" />
+    <FiltersToggleButton class="on-left" />
     <ServerToggle class="on-left" />
     <AutoscrollToggle class="on-left" />
     <SettingsButton class="on-left" />
@@ -27,9 +28,10 @@ import SettingsButton from './SettingsButton.vue';
 // Store modules
 import { getModule } from 'vuex-module-decorators';
 import LogStoreModule from '../modules/log/LogStoreModule';
+import FiltersToggleButton from '../modules/log/FiltersToggleButton.vue';
 
 @Component({
-  components: { SettingsButton, AutoscrollToggle, ServerToggle, CleanLogButton }
+  components: { FiltersToggleButton, SettingsButton, AutoscrollToggle, ServerToggle, CleanLogButton }
 })
 export default class MainToolbar extends Vue {
   log = getModule(LogStoreModule);

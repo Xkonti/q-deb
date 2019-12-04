@@ -1,5 +1,8 @@
 <template>
-  <q-toolbar :class="$q.dark.isActive ? 'bg-dark' : 'bg-primary'">
+  <q-toolbar
+    v-if="showFilterBar"
+    :class="$q.dark.isActive ? 'bg-dark' : 'bg-primary'"
+  >
     <SeverityLevelFilterSelector :selected.sync=severityFilter @update:selected="onSeverityFilterChange"/>
 
     <q-input
@@ -92,10 +95,14 @@ export default class FilterBar extends Vue {
     return this.tagFilter != null && this.tagFilter !== '';
   }
 
+  get showFilterBar() {
+    return this.logStore.showFilterBar;
+  }
+
   clearFilters() {
+    this.messageFilter = '';
     this.severityFilter = [];
     this.sourceFilter = '';
-    this.messageFilter = '';
     this.tagFilter = '';
     this.updateFilter();
   }
@@ -103,6 +110,14 @@ export default class FilterBar extends Vue {
   getNullOrValue(value: string): string | null {
     if (value == null || value === '') return null;
     return value;
+  }
+
+  mounted() {
+    if (this.logStore.filter == null) return;
+    this.messageFilter = this.logStore.filter.messageFilter || '';
+    this.severityFilter = this.logStore.filter.severityFilter.map(x => x);
+    this.sourceFilter = this.logStore.filter.sourceFilter || '';
+    this.tagFilter = this.logStore.filter.tagFilter || '';
   }
 
   onSeverityFilterChange() {

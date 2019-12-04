@@ -15,20 +15,16 @@ export default class LogStoreModule extends VuexModule {
   public filteredLog: ILogEntry[] = [];
   public fullLog: ILogEntry[] = [];
   public selected: ILogEntry[] = [];
+  public showFilterBar: boolean = false;
 
   @Mutation
-  public SET_AUTOSCROLL(value: boolean) {
-    this.autoscroll = value;
+  public ADD_FILTERED_LOG_ENTRY(entry: ILogEntry) {
+    this.filteredLog.push(entry);
   }
 
   @Mutation
   public ADD_FULL_LOG_ENTRY(entry: ILogEntry) {
     this.fullLog.push(entry);
-  }
-
-  @Mutation
-  public ADD_FILTERED_LOG_ENTRY(entry: ILogEntry) {
-    this.filteredLog.push(entry);
   }
 
   @Mutation
@@ -38,8 +34,8 @@ export default class LogStoreModule extends VuexModule {
   }
 
   @Mutation
-  public SET_SELECTED(selectedEntries: ILogEntry[]) {
-    this.selected = selectedEntries;
+  public SET_AUTOSCROLL(value: boolean) {
+    this.autoscroll = value;
   }
 
   @Mutation
@@ -52,9 +48,14 @@ export default class LogStoreModule extends VuexModule {
     this.filteredLog = log;
   }
 
-  @Action
-  public setAutoscroll(value: boolean) {
-    this.SET_AUTOSCROLL(value);
+  @Mutation
+  public SET_SELECTED(selectedEntries: ILogEntry[]) {
+    this.selected = selectedEntries;
+  }
+
+  @Mutation
+  public SET_SHOW_FILTER_BAR(show: boolean) {
+    this.showFilterBar = show;
   }
 
   @Action
@@ -76,6 +77,11 @@ export default class LogStoreModule extends VuexModule {
   }
 
   @Action
+  public setAutoscroll(value: boolean) {
+    this.SET_AUTOSCROLL(value);
+  }
+
+  @Action
   public setFilter(filter: LogFilter) {
     this.SET_FILTER(filter);
 
@@ -85,5 +91,10 @@ export default class LogStoreModule extends VuexModule {
     } else {
       this.SET_FILTERED_LOG(this.fullLog);
     }
+  }
+
+  @Action
+  public setShowFilterBar(show: boolean) {
+    this.SET_SHOW_FILTER_BAR(show);
   }
 }

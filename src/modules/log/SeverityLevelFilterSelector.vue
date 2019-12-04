@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Emit, PropSync, Watch } from 'vue-property-decorator';
+import { Component, PropSync } from 'vue-property-decorator';
 
 @Component({
   components: {}
